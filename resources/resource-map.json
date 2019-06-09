@@ -1,0 +1,6 @@
+{
+  "assets": [
+    "${baseUrl}/resources/cheer1.png",
+    "${baseUrl}/resources/hit.png"
+  ]
+}
