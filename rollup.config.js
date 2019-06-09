@@ -5,7 +5,11 @@ import typescript from 'rollup-plugin-typescript2'
 import json from 'rollup-plugin-json'
 
 /**
- * @param {('esnext' | 'legacy')} target
+ * @typedef {('esnext' | 'legacy')} BuildTarget
+ */
+
+/**
+ * @param {BuildTarget} target
  * @return {{file: string, format: string, sourcemap: boolean}}
  */
 const output = (target) => {
@@ -52,11 +56,11 @@ const polyfills = {
 };
 
 /**
- * @param {('esnext' | 'legacy')} target
- * @param {string} tsConfigFile
+ * @param {BuildTarget} target
  * @return {*}
  */
-const bundle = (target, tsConfigFile) => {
+const bundle = (target) => {
+  const tsConfigFile = target === 'esnext' ? 'tsconfig.esnext.json' : 'tsconfig.json';
   return {
     input: 'src/index.ts',
     output: output(target),
@@ -70,17 +74,9 @@ const bundle = (target, tsConfigFile) => {
 };
 
 export default commandLineArgs => {
-  const target = commandLineArgs ? commandLineArgs[ 'config-target' ] || 'esnext' : 'esnext';
-  const tsConfigFile = target === 'esnext' ? 'tsconfig.esnext.json' : 'tsconfig.json';
-
-  if (target === 'esnext') {
-    return [
-      bundle(target, tsConfigFile)
-    ];
-  }
-
   return [
     polyfills,
-    bundle(target, tsConfigFile)
+    bundle('legacy'),
+    bundle('esnext')
   ];
 }

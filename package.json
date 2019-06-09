@@ -5,10 +5,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "copy-template": "node ./tools/copy-template.js",
-    "build:legacy": "rollup -c rollup.config.js --config-target legacy",
-    "build:esnext": "rollup -c rollup.config.js --config-target esnext",
-    "build": "npm run clean && npm run copy-template && npm run build:legacy && npm run build:esnext",
-    "build:watch": "npm run clean && npm run copy-template && rollup -c rollup.config.server.js -w"
+    "build": "npm run clean && npm run copy-template && rollup -c rollup.config.js",
+    "watch": "npm run clean && npm run copy-template && rollup -c rollup.config.server.js -w"
   },
   "license": "MIT",
   "devDependencies": {
