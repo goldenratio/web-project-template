@@ -1,6 +1,6 @@
 import { interval } from 'rxjs';
-import { sum } from './add';
-import { HelloWorld } from './hello-world';
+import { sum } from './example/add';
+import { HelloWorld } from './example/hello-world';
 
 const ob$ = interval(1000);
 ob$.subscribe(val => {

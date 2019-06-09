@@ -7,7 +7,10 @@ const defaultJSON = defaultConfig({
 const plugins = defaultJSON
   .plugins
   .concat([
-    serve('dist')
+    serve({
+      contentBase: './dist',
+      open: true
+    })
   ]);
 
 const config = { ...defaultJSON, plugins };
