@@ -1,18 +1,17 @@
-import defaultConfig from './rollup.config';
+import { bundle } from './rollup.config';
 import serve from 'rollup-plugin-serve'
 
-const defaultJSON = defaultConfig({
-  'config-target': 'esnext'
-});
-const plugins = defaultJSON
+const esnextBundle = bundle('esnext');
+esnextBundle
   .plugins
-  .concat([
+  .push(
     serve({
       contentBase: './dist',
       open: true
     })
-  ]);
+  );
 
-const config = { ...defaultJSON, plugins };
-
-export default config;
+export default [
+  bundle('legacy'),
+  esnextBundle
+];

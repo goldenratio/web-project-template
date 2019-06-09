@@ -2,7 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/",
-    "sourceMap": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "module": "esnext",
