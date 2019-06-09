@@ -1,0 +1,27 @@
+{
+  "name": "web-project-template",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "clean": "rimraf dist",
+    "copy-template": "node ./tools/copy-template.js",
+    "build:legacy": "rollup -c rollup.config.js --config-target legacy",
+    "build:esnext": "rollup -c rollup.config.js --config-target esnext",
+    "build": "npm run clean && npm run copy-template && npm run build:legacy && npm run build:esnext",
+    "build:watch": "npm run clean && npm run copy-template && rollup -c rollup.config.server.js -w"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "copy-dir": "^1.1.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.14.4",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-copy": "^2.0.1",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.21.1",
+    "typescript": "^3.5.1"
+  }
+}
