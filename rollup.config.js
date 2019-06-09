@@ -19,10 +19,10 @@ const output = (target) => {
 };
 
 /**
- * @param {string} tsConfigFile
+ * @param {string} [tsConfigFile=tsconfig.json]
  * @return {*[]}
  */
-const plugins = (tsConfigFile) => [
+const plugins = (tsConfigFile = 'tsconfig.json') => [
   // Allow json resolution
   json(),
 
@@ -43,27 +43,44 @@ const plugins = (tsConfigFile) => [
   sourceMaps()
 ];
 
+const polyfills = {
+  input: 'src/polyfills.ts',
+  output: { file: './dist/polyfills.js', format: 'cjs', sourcemap: true },
+  // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
+  external: [],
+  plugins: plugins()
+};
+
+/**
+ * @param {('esnext' | 'legacy')} target
+ * @param {string} tsConfigFile
+ * @return {*}
+ */
+const bundle = (target, tsConfigFile) => {
+  return {
+    input: 'src/index.ts',
+    output: output(target),
+    // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
+    external: [],
+    watch: {
+      include: 'src/**',
+    },
+    plugins: plugins(tsConfigFile)
+  }
+};
+
 export default commandLineArgs => {
   const target = commandLineArgs ? commandLineArgs[ 'config-target' ] || 'esnext' : 'esnext';
   const tsConfigFile = target === 'esnext' ? 'tsconfig.esnext.json' : 'tsconfig.json';
 
+  if (target === 'esnext') {
+    return [
+      bundle(target, tsConfigFile)
+    ];
+  }
+
   return [
-    {
-      input: 'src/polyfills.ts',
-      output: { file: './dist/polyfills.js', format: 'cjs', sourcemap: true },
-      // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-      external: [],
-      plugins: plugins(tsConfigFile)
-    },
-    {
-      input: 'src/index.ts',
-      output: output(target),
-      // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-      external: [],
-      watch: {
-        include: 'src/**',
-      },
-      plugins: plugins(tsConfigFile)
-    }
+    polyfills,
+    bundle(target, tsConfigFile)
   ];
 }
