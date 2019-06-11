@@ -1,17 +1,18 @@
-import { bundle } from './rollup.config';
 import serve from 'rollup-plugin-serve'
+import { bundle, polyfills, outDir } from './rollup.config';
 
-const esnextBundle = bundle('esnext');
-esnextBundle
+const bundleESNext = bundle('esnext');
+bundleESNext
   .plugins
   .push(
     serve({
-      contentBase: './dist',
+      contentBase: `./${outDir}`,
       open: true
     })
   );
 
 export default [
+  polyfills,
   bundle('legacy'),
-  esnextBundle
+  bundleESNext
 ];

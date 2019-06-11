@@ -5,6 +5,8 @@ import typescript from 'rollup-plugin-typescript2'
 import json from 'rollup-plugin-json'
 import { terser } from 'rollup-plugin-terser';
 
+export const outDir = 'dist';
+
 /**
  * @typedef {('esnext' | 'legacy')} BuildTarget
  */
@@ -18,7 +20,7 @@ const output = (target, isProduction) => {
   const suffix = target === 'esnext' ? '.esnext' : '.legacy';
   const format = target === 'esnext' ? 'es' : 'cjs';
   return {
-    file: `./dist/bundle${suffix}.js`,
+    file: `./${outDir}/bundle${suffix}.js`,
     format: format,
     sourcemap: !isProduction
   };
@@ -64,9 +66,9 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
   ];
 };
 
-const polyfills = {
+export const polyfills = {
   input: 'src/polyfills.ts',
-  output: { file: './dist/polyfills.js', format: 'cjs', sourcemap: false },
+  output: { file: `./${outDir}/polyfills.js`, format: 'cjs', sourcemap: false },
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [],
   plugins: plugins()
