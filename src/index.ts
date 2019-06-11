@@ -1,11 +1,6 @@
-import { interval } from 'rxjs';
-import { sum } from './example/add';
-import { HelloWorld } from './example/hello-world';
+import { html, render } from 'htm/preact';
+import { App } from './app';
 
-const ob$ = interval(1000);
-ob$.subscribe(val => {
-  console.log(val);
-});
-
-console.log(new HelloWorld());
-console.log(sum(40, 2));
+window.onload = () => {
+  render(html`<${App} />`, document.body);
+};
