@@ -68,7 +68,7 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 
 export const polyfills = {
   input: 'src/polyfills.ts',
-  output: { file: `./${outDir}/polyfills.js`, format: 'cjs', sourcemap: false },
+  output: { file: `./${outDir}/polyfills.js`, format: 'iife', sourcemap: false },
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [],
   plugins: plugins()
