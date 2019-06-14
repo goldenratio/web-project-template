@@ -17,7 +17,7 @@ export const outDir = 'dist';
  * @return {{file: string, format: string, sourcemap: boolean}}
  */
 const output = (target, isProduction) => {
-  const suffix = target === 'esnext' ? '.esnext' : '.legacy';
+  const suffix = target === 'esnext' ? '' : '.legacy';
   const format = target === 'esnext' ? 'es' : 'cjs';
   return {
     file: `./${outDir}/bundle${suffix}.js`,

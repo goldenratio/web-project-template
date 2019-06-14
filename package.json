@@ -5,9 +5,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "copy-template": "node ./tools/copy-template.js",
-    "build:dev": "npm run clean && npm run copy-template && rollup -c rollup.config.js",
     "build": "npm run clean && npm run copy-template && rollup -c rollup.config.js --config-production",
-    "watch": "npm run clean && npm run copy-template && rollup -c rollup.config.server.js -w"
+    "build:dev": "npm run clean && npm run copy-template && rollup -c rollup.config.js",
+    "build:watch": "npm run clean && npm run copy-template && rollup -c rollup.config.server.js -w"
   },
   "license": "MIT",
   "devDependencies": {
