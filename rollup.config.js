@@ -1,7 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import sourceMaps from 'rollup-plugin-sourcemaps'
-import typescript from 'rollup-plugin-typescript2'
+import typescript from 'rollup-plugin-typescript'
 import json from 'rollup-plugin-json'
 import { terser } from 'rollup-plugin-terser';
 
@@ -38,10 +38,7 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 
     // Compile TypeScript files
     typescript({
-      tsconfig: tsConfigFile,
-      tsconfigOverride: {
-        'sourceMap': !isProduction
-      }
+      tsconfig: tsConfigFile
     }),
 
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
