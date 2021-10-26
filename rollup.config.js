@@ -1,25 +1,17 @@
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import sourceMaps from 'rollup-plugin-sourcemaps'
-import typescript from 'rollup-plugin-typescript'
-import json from 'rollup-plugin-json'
+import { nodeResolve as resolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
+import sourceMaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
+import copy from 'rollup-plugin-copy';
+
+const { version } = require('./package.json');
 
 export const outDir = 'dist';
 
-/**
- * @param {boolean} isProduction
- * @return {{file: string, format: string, sourcemap: boolean}}
- */
-const output = (isProduction) => {
-  const suffix = '';
-  const format = 'cjs';
-  return {
-    file: `./${outDir}/bundle${suffix}.js`,
-    format: format,
-    sourcemap: !isProduction
-  };
-};
+// maybe you can get correct version from your CI
+const buildVersion = `v${version}`;
 
 /**
  * @param {string} [tsConfigFile=tsconfig.json]
@@ -27,43 +19,42 @@ const output = (isProduction) => {
  * @return {*[]}
  */
 const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
-  const defaultPlugins = [
-    // Allow json resolution
-    json(),
+	const defaultPlugins = [
+		// Allow json resolution
+		json(),
 
-    // Compile TypeScript files
-    typescript({
-      tsconfig: tsConfigFile
-    }),
+		// Compile TypeScript files
+		typescript({
+			tsconfig: tsConfigFile,
+		}),
 
-    // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
-    commonjs(),
+		// Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
+		commonjs(),
 
-    // Allow node_modules resolution, so you can use 'external' to control
-    // which external modules to include in the bundle
-    // https://github.com/rollup/rollup-plugin-node-resolve#usage
-    resolve()
-  ];
+		// Allow node_modules resolution, so you can use 'external' to control
+		// which external modules to include in the bundle
+		// https://github.com/rollup/rollup-plugin-node-resolve#usage
+		resolve(),
 
-  if (isProduction) {
-    return [
-      ... defaultPlugins,
-      terser()
-    ];
-  }
+		copy({
+			targets: [
+				{ src: './resources', dest: `${outDir}/${buildVersion}` },
+				{
+					src: './html-template/index.html',
+					dest: `${outDir}`,
+					transform: (contents, filename) => {
+						return contents.toString().replaceAll('${version}', buildVersion);
+					},
+				},
+			],
+		}),
+	];
 
-  return [
-    ... defaultPlugins,
-    sourceMaps()
-  ];
-};
+	if (isProduction) {
+		return [...defaultPlugins, terser()];
+	}
 
-export const polyfills = {
-  input: 'src/polyfills.ts',
-  output: { file: `./${outDir}/polyfills.js`, format: 'iife', sourcemap: false },
-  // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-  external: [],
-  plugins: plugins()
+	return [...defaultPlugins, sourceMaps()];
 };
 
 /**
@@ -71,23 +62,24 @@ export const polyfills = {
  * @return {*}
  */
 export const bundle = (isProduction = false) => {
-  const tsConfigFile = 'tsconfig.json';
-  return {
-    input: 'src/index.ts',
-    output: output(isProduction),
-    // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-    external: [],
-    watch: {
-      include: 'src/**',
-    },
-    plugins: plugins(tsConfigFile, isProduction)
-  }
+	const tsConfigFile = 'tsconfig.json';
+	return {
+		input: 'src/index.ts',
+		output: {
+			dir: `./${outDir}/${buildVersion}`,
+			format: 'es',
+			sourcemap: !isProduction,
+		},
+		// Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
+		external: [],
+		watch: {
+			include: 'src/**',
+		},
+		plugins: plugins(tsConfigFile, isProduction),
+	};
 };
 
 export default commandLineArgs => {
-  const isProduction = commandLineArgs && commandLineArgs['config-production'] || false;
-  return [
-    polyfills,
-    bundle(isProduction)
-  ];
-}
+	const isProduction = (commandLineArgs && commandLineArgs['config-production']) || false;
+	return [bundle(isProduction)];
+};

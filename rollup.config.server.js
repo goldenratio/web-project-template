@@ -1,17 +1,15 @@
-import serve from 'rollup-plugin-serve'
-import { bundle, polyfills, outDir } from './rollup.config';
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 
-const bundleESNext = bundle();
-bundleESNext
-  .plugins
-  .push(
-    serve({
-      contentBase: `./${outDir}`,
-      open: true
-    })
-  );
+import { bundle, outDir } from './rollup.config';
 
-export default [
-  polyfills,
-  bundleESNext
-];
+const bundleServer = bundle();
+bundleServer.plugins.push(
+	serve({
+		contentBase: `./${outDir}`,
+		open: true,
+	}),
+	livereload(`./${outDir}`)
+);
+
+export default [bundleServer];

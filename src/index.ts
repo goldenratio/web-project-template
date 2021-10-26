@@ -8,4 +8,4 @@ ob$.subscribe(val => {
 });
 
 console.log(new HelloWorld());
-console.log(sum(41, 2));
+console.log(sum(40, 2));
