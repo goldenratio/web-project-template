@@ -2,6 +2,7 @@ import { nodeResolve as resolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
+import eslint from '@rollup/plugin-eslint';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
@@ -22,6 +23,10 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 	const defaultPlugins = [
 		// Allow json resolution
 		json(),
+
+    eslint({
+      throwOnError: true
+    }),
 
 		// Compile TypeScript files
 		typescript({
