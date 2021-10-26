@@ -8,17 +8,12 @@ import { terser } from 'rollup-plugin-terser';
 export const outDir = 'dist';
 
 /**
- * @typedef {('esnext' | 'legacy')} BuildTarget
- */
-
-/**
- * @param {BuildTarget} target
  * @param {boolean} isProduction
  * @return {{file: string, format: string, sourcemap: boolean}}
  */
-const output = (target, isProduction) => {
-  const suffix = target === 'esnext' ? '' : '.legacy';
-  const format = target === 'esnext' ? 'es' : 'cjs';
+const output = (isProduction) => {
+  const suffix = '';
+  const format = 'cjs';
   return {
     file: `./${outDir}/bundle${suffix}.js`,
     format: format,
@@ -72,15 +67,14 @@ export const polyfills = {
 };
 
 /**
- * @param {BuildTarget} target
  * @param {boolean} [isProduction=false]
  * @return {*}
  */
-export const bundle = (target, isProduction = false) => {
-  const tsConfigFile = target === 'esnext' ? 'tsconfig.esnext.json' : 'tsconfig.json';
+export const bundle = (isProduction = false) => {
+  const tsConfigFile = 'tsconfig.json';
   return {
     input: 'src/index.ts',
-    output: output(target, isProduction),
+    output: output(isProduction),
     // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
     external: [],
     watch: {
@@ -94,7 +88,6 @@ export default commandLineArgs => {
   const isProduction = commandLineArgs && commandLineArgs['config-production'] || false;
   return [
     polyfills,
-    bundle('legacy', isProduction),
-    bundle('esnext', isProduction)
+    bundle(isProduction)
   ];
 }

@@ -1,5 +1,5 @@
 export class HelloWorld {
-  constructor() {
-    console.log('hello world');
-  }
+	constructor() {
+		console.log('hello world');
+	}
 }

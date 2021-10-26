@@ -1,7 +1,7 @@
 import serve from 'rollup-plugin-serve'
 import { bundle, polyfills, outDir } from './rollup.config';
 
-const bundleESNext = bundle('esnext');
+const bundleESNext = bundle();
 bundleESNext
   .plugins
   .push(
@@ -13,6 +13,5 @@ bundleESNext
 
 export default [
   polyfills,
-  bundle('legacy'),
   bundleESNext
 ];

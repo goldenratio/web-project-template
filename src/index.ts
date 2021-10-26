@@ -4,8 +4,8 @@ import { HelloWorld } from './example/hello-world';
 
 const ob$ = interval(1000);
 ob$.subscribe(val => {
-  console.log(val);
+	console.log(val);
 });
 
 console.log(new HelloWorld());
-console.log(sum(40, 2));
+console.log(sum(41, 2));
