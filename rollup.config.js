@@ -24,9 +24,6 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 		// Allow json resolution
 		json(),
 
-    eslint({
-      throwOnError: true
-    }),
 
 		// Compile TypeScript files
 		typescript({
@@ -84,7 +81,7 @@ export const bundle = (isProduction = false) => {
 	};
 };
 
-export default commandLineArgs => {
-	const isProduction = (commandLineArgs && commandLineArgs['config-production']) || false;
+export default () => {
+	const isProduction = process.env.BUILD === 'production';
 	return [bundle(isProduction)];
 };

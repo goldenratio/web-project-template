@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && rollup -c rollup.config.js --config-production",
+    "build": "npm run clean && rollup -c rollup.config.js --environment BUILD:production",
     "build:dev": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run clean && rollup -c rollup.config.server.js -w",
     "check-code-style": "prettier src/**/*.ts && eslint ./src --ext .ts",
