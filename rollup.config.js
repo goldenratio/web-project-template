@@ -24,6 +24,9 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 		// Allow json resolution
 		json(),
 
+    eslint({
+      throwOnError: true
+    }),
 
 		// Compile TypeScript files
 		typescript({
