@@ -3,5 +3,6 @@
 .npmrc
 node_modules
 dist
+coverage
 
 *.iml
