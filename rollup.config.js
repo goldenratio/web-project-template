@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import eslint from '@rollup/plugin-eslint';
+import strip from '@rollup/plugin-strip';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
@@ -24,9 +25,9 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 		// Allow json resolution
 		json(),
 
-    eslint({
-      throwOnError: true
-    }),
+		eslint({
+			throwOnError: false,
+		}),
 
 		// Compile TypeScript files
 		typescript({
@@ -56,7 +57,13 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 	];
 
 	if (isProduction) {
-		return [...defaultPlugins, terser()];
+		return [
+			...defaultPlugins,
+			terser(),
+			strip({
+				include: '**/*.(js|ts)',
+			}),
+		];
 	}
 
 	return [...defaultPlugins, sourceMaps()];
