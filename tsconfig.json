@@ -6,6 +6,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "target": "ES2020",
+    "esModuleInterop": true,
     "allowJs": false,
     "baseUrl": ".",
     "lib": [
@@ -16,7 +17,8 @@
       "./node_modules/@types"
     ],
     "types": [
-      "node"
+      "node",
+      "jest"
     ]
   },
   "include": [

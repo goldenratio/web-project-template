@@ -24,9 +24,7 @@ const plugins = (isProduction = false) => {
 		// Allow json resolution
 		json(),
 
-		eslint({
-			throwOnError: false,
-		}),
+		eslint(),
 
 		// Compile TypeScript files
 		typescript({

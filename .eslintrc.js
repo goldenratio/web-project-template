@@ -163,18 +163,6 @@ module.exports = {
       {
         groups: ['builtin', 'external', 'unknown', 'parent', 'sibling', 'index'],
         'newlines-between': 'always',
-        pathGroups: [
-          {
-            pattern: '@gsbaltic/**',
-            group: 'external',
-            position: 'after'
-          },
-          {
-            pattern: '@telesis/**',
-            group: 'unknown',
-            position: 'after'
-          }
-        ],
         pathGroupsExcludedImportTypes: ['builtin']
       }
     ],
