@@ -16,11 +16,10 @@ export const outDir = 'dist';
 const buildVersion = `v${version}`;
 
 /**
- * @param {string} [tsConfigFile=tsconfig.json]
  * @param {boolean} [isProduction=false]
  * @return {*[]}
  */
-const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
+const plugins = (isProduction = false) => {
 	const defaultPlugins = [
 		// Allow json resolution
 		json(),
@@ -31,7 +30,7 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
 
 		// Compile TypeScript files
 		typescript({
-			tsconfig: tsConfigFile,
+			tsconfig: 'tsconfig.json',
 		}),
 
 		// Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
@@ -74,7 +73,6 @@ const plugins = (tsConfigFile = 'tsconfig.json', isProduction = false) => {
  * @return {*}
  */
 export const bundle = (isProduction = false) => {
-	const tsConfigFile = 'tsconfig.json';
 	return {
 		input: 'src/index.ts',
 		output: {
@@ -87,7 +85,7 @@ export const bundle = (isProduction = false) => {
 		watch: {
 			include: 'src/**',
 		},
-		plugins: plugins(tsConfigFile, isProduction),
+		plugins: plugins(isProduction),
 	};
 };
 
