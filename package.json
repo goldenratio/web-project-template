@@ -7,20 +7,11 @@
     "build": "npm run clean && rollup -c rollup.config.js --environment BUILD:production",
     "build:dev": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run clean && rollup -c rollup.config.server.js -w",
-    "check-code-style": "prettier src/**/*.ts && eslint ./src --ext .ts",
-    "fix-code-style": "prettier --write src/**/*.ts && eslint ./src --ext .ts --fix",
+    "check-code-style": "prettier src/**/*.ts && eslint src/**/*.ts --ext .ts",
+    "fix-code-style": "prettier --write src/**/*.ts && eslint src/**/*.ts --ext .ts --fix",
     "test": "jest --silent --bail",
     "test:watch": "jest --watch",
     "test:coverage": "jest --collectCoverage=true"
-  },
-  "pre-commit": [
-    "lint-staged"
-  ],
-  "lint-staged": {
-    "*.ts": [
-      "npm run fix-code-style",
-      "git add"
-    ]
   },
   "license": "MIT",
   "devDependencies": {
@@ -39,8 +30,6 @@
     "eslint-plugin-rxjs": "^2.1.3",
     "eslint-plugin-unicorn": "^23.0.0",
     "jest": "27.0.6",
-    "lint-staged": "^9.3.0",
-    "pre-commit": "^1.2.2",
     "prettier": "^2.4.1",
     "rimraf": "^2.6.3",
     "rollup": "^2.58.1",
