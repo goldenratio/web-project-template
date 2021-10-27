@@ -8,7 +8,10 @@
     "build:dev": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run clean && rollup -c rollup.config.server.js -w",
     "check-code-style": "prettier src/**/*.ts && eslint ./src --ext .ts",
-    "fix-code-style": "prettier --write src/**/*.ts && eslint ./src --ext .ts --fix"
+    "fix-code-style": "prettier --write src/**/*.ts && eslint ./src --ext .ts --fix",
+    "test": "jest --silent --bail",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --collectCoverage=true",
   },
   "pre-commit": [
     "lint-staged"
@@ -21,6 +24,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "26.0.24",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-html": "^0.2.4",
@@ -35,6 +39,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-rxjs": "^2.1.3",
     "eslint-plugin-unicorn": "^23.0.0",
+    "jest": "27.0.6",
     "lint-staged": "^9.3.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.4.1",
@@ -45,6 +50,7 @@
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "27.0.4",
     "typescript": "^4.4.4"
   },
   "dependencies": {
