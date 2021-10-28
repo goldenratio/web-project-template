@@ -4,9 +4,9 @@
   "description": "",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && webpack --mode production --config webpack.config.js",
-    "build:dev": "npm run clean && webpack --mode development --config webpack.config.js",
-    "build:watch": "npm run clean && webpack serve --mode development --config webpack.config.js --open",
+    "build": "npm run clean && webpack --mode production",
+    "build:dev": "npm run clean && webpack --mode development",
+    "build:watch": "npm run clean && webpack serve --mode development --open",
     "check-code-style": "prettier src/**/*.ts && eslint src/**/*.ts --ext .ts",
     "fix-code-style": "prettier --write src/**/*.ts && eslint src/**/*.ts --ext .ts --fix",
     "test": "jest --silent --bail",
