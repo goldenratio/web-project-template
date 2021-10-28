@@ -10,16 +10,14 @@ const CopyPlugin = require('copy-webpack-plugin');
 const artifactVersion = 'v1.0.0';
 const artifactDest = `./dist/${artifactVersion}`;
 
-const defaultConfig = () => ({
+const defaultConfig = ({ isWatchMode, isProduction }) => ({
 	target: 'web',
 	entry: './src/index.ts',
 	output: {
 		filename: './[name].js',
 		path: path.resolve(__dirname, artifactDest),
 	},
-	devServer: {
-		port: 8000
-	},
+	devServer: {},
 	module: {
 		rules: [
 			{
@@ -52,27 +50,27 @@ const defaultConfig = () => ({
 			extensions: 'ts',
 		}),
 		new webpack.DefinePlugin({
-			DEBUG: true,
+			DEBUG: !isProduction,
 		}),
 		new HtmlWebpackPlugin({
-      filename: '../index.html',
-      template: './src/index.html'
-    }),
+			filename: isWatchMode ? 'index.html' : '../index.html',
+			template: './src/index.html',
+		}),
 		new CopyPlugin({
-			patterns: [
-				{ from: 'resources', to: 'resources' }
-			],
+			patterns: [{ from: 'resources', to: 'resources' }],
 		}),
 	],
 });
 
-const getDevConfig = () => {
-	const config = defaultConfig();
-	config.devtool = 'source-map';
-	return config;
-};
+module.exports = (_, argv) => {
+	const { mode, env } = argv;
+	const isProduction = mode === 'production';
+	const isWatchMode = env.WEBPACK_SERVE === true;
 
-module.exports = (env, argv) => {
-  console.log(env);
-	return getDevConfig();
+	const config = defaultConfig({ isWatchMode, isProduction });
+	if (!isProduction) {
+    config.devtool = 'source-map';
+  }
+
+	return config;
 };
