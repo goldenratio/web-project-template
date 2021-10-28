@@ -7,7 +7,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
-const artifactVersion = 'v1.0.0';
+const { version } = require('./package.json');
+const artifactVersion = `v${process.env.ARTIFACT_VERSION || version}`;
 const artifactDest = `./dist/${artifactVersion}`;
 
 const defaultConfig = ({ isWatchMode, isProduction }) => ({
