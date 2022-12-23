@@ -11,7 +11,17 @@
     "fix-code-style": "prettier --write \"src/**/*.ts\" && eslint \"src/**/*.ts\" --ext .ts --fix",
     "test": "jest --silent --bail",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --collectCoverage=true"
+    "test:coverage": "jest --collectCoverage=true",
+    "lint-staged": "lint-staged",
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "lint-staged": {
+    "*.ts": [
+      "npm run fix-code-style",
+      "git add"
+    ]
   },
   "license": "MIT",
   "devDependencies": {
@@ -32,6 +42,8 @@
     "html-replace-webpack-plugin": "^2.6.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "27.0.6",
+    "lint-staged": "^9.3.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.4.1",
     "rimraf": "^2.6.3",
     "style-loader": "^3.3.1",
