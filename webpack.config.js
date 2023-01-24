@@ -1,4 +1,5 @@
 const path = require('path');
+const crypto = require('crypto')
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,7 +11,7 @@ const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 
 const { version } = require('./package.json');
 const artifactVersion = `v${process.env.ARTIFACT_VERSION || version}`;
-const baseDirectory = `${artifactVersion}`;
+const baseDirectory = crypto.createHash('md5').update(`${artifactVersion}${Date.now()}`).digest('hex');
 const artifactDest = `./dist/${baseDirectory}`;
 
 const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
