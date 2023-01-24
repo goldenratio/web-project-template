@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 
 const webpack = require('webpack');
@@ -6,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 
 const { version } = require('./package.json');
 const artifactVersion = `v${process.env.ARTIFACT_VERSION || version}`;
@@ -72,6 +73,11 @@ const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
         }
       }],
     }),
+    new GenerateJsonPlugin('build-info.json',{
+      version: artifactVersion,
+      isProduction: isProduction,
+      buildDate: new Date().toUTCString()
+    }, undefined, 2)
   ],
 });
 
@@ -82,7 +88,16 @@ module.exports = (_, argv) => {
   const baseUrl = isWatchMode ? '' : artifactVersion;
 
   const config = defaultConfig({ isWatchMode, isProduction, baseUrl });
-  if (!isProduction) {
+  if (isProduction) {
+    config.optimization = {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          minify: TerserPlugin.uglifyJsMinify,
+        }),
+      ],
+    };
+  } else {
     config.devtool = 'source-map';
   }
 
