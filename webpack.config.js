@@ -10,7 +10,8 @@ const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 
 const { version } = require('./package.json');
 const artifactVersion = `v${process.env.ARTIFACT_VERSION || version}`;
-const artifactDest = `./dist/${artifactVersion}`;
+const baseDirectory = `${artifactVersion}`;
+const artifactDest = `./dist/${baseDirectory}`;
 
 const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
   target: 'web',
@@ -85,7 +86,7 @@ module.exports = (_, argv) => {
   const { mode, env } = argv;
   const isProduction = mode === 'production';
   const isWatchMode = env.WEBPACK_SERVE === true;
-  const baseUrl = isWatchMode ? '' : artifactVersion;
+  const baseUrl = isWatchMode ? '' : baseDirectory;
 
   const config = defaultConfig({ isWatchMode, isProduction, baseUrl });
   if (isProduction) {
