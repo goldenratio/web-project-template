@@ -1,7 +1,7 @@
 # web-project-template
 
 - Template for web projects. Do not use it for libraries.
-- It uses html as deployable configuration concept, https://immutablewebapps.org/#indexhtml-is-deployable-configuration
+- It uses html as deployable configuration concept, [https://immutablewebapps.org/#indexhtml-is-deployable-configuration](https://web.archive.org/web/20220826234643/https://immutablewebapps.org/#indexhtml-is-deployable-configuration)
 - Generated version folder name inside `dist` is from artifact version. Artifact version can be configured as env variable - `process.env.ARTIFACT_VERSION`. By default, it takes artifact version from `package.json`
 - Compile time const `BASE_URL` is available. Any ajax request to files inside `resources` should have `BASE_URL` as prefix url. Example:
 ```js
