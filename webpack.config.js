@@ -8,6 +8,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const GenerateJsonPlugin = require('generate-json-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const { version } = require('./package.json');
 const artifactVersion = `v${process.env.ARTIFACT_VERSION || version}`;
@@ -53,6 +54,7 @@ const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
     new ESLintPlugin({
       extensions: 'ts',
     }),
+    new ForkTsCheckerWebpackPlugin(),
     new webpack.DefinePlugin({
       DEBUG: !isProduction,
       VERSION: JSON.stringify(artifactVersion),
