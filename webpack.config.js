@@ -10,8 +10,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const { version } = require('./package.json');
-const artifactVersion = `v${process.env.ARTIFACT_VERSION || version}`;
+const packageJSON = require('./package.json');
+const artifactVersion = `v${process.env.ARTIFACT_VERSION || packageJSON.version}`;
 const baseDirectory = crypto.createHash('md5').update(`${artifactVersion}${Date.now()}`).digest('hex');
 const artifactDest = `./dist/${baseDirectory}`;
 
@@ -81,8 +81,13 @@ const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
       version: artifactVersion,
       isProduction: isProduction,
       buildDate: new Date().toUTCString()
-    }, undefined, 2)
-  ],
+    }, undefined, 2),
+    new webpack.BannerPlugin({
+      banner: () => {
+        return `${packageJSON.name}\nversion: ${artifactVersion}\nbuild date: ${(new Date().toUTCString())}\n`;
+      },
+    })
+  ]
 });
 
 module.exports = (_, argv) => {
@@ -98,6 +103,7 @@ module.exports = (_, argv) => {
       minimizer: [
         new TerserPlugin({
           minify: TerserPlugin.uglifyJsMinify,
+          extractComments: false
         }),
       ],
     };
