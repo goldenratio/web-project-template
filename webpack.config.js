@@ -48,6 +48,10 @@ const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    extensionAlias: {
+      '.js': ['.ts', '.js'],
+      '.mjs': ['.mts', '.mjs'],
+    },
   },
   plugins: [
     new CleanWebpackPlugin(),
