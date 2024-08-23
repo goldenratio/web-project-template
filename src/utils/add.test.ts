@@ -1,7 +1,8 @@
-import { sum } from './add';
+import assert from "node:assert";
+import test from "node:test";
 
-describe('Add Test', () => {
-	it('should add two numbers', () => {
-		expect(sum(40, 2)).toBe(42);
-	});
+import { sum } from "./add";
+
+test("should add two numbers", () => {
+  assert.strictEqual(sum(40, 2), 42);
 });
