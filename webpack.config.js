@@ -79,6 +79,9 @@ const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
         },
       ],
     }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+    }),
     new GenerateJsonPlugin(
       "build-info.json",
       {
