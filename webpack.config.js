@@ -1,15 +1,21 @@
-const path = require("node:path");
-const crypto = require("node:crypto");
+import crypto from "node:crypto";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const GenerateJsonPlugin = require("generate-json-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import GenerateJsonPlugin from "generate-json-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import webpack from "webpack";
 
-const packageJSON = require("./package.json");
+import packageJSON from "./package.json" with { type: "json" };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// const packageJSON = import("./package.json");
 const artifactVersion = `v${process.env.ARTIFACT_VERSION || packageJSON.version}`;
 const baseDirectory = crypto.createHash("md5").update(`${artifactVersion}${Date.now()}`).digest("hex");
 const artifactDest = `./dist/${baseDirectory}`;
@@ -100,7 +106,7 @@ const defaultConfig = ({ isWatchMode, isProduction, baseUrl }) => ({
   ],
 });
 
-module.exports = (_, argv) => {
+const webpackConfig = (_, argv) => {
   const { mode, env } = argv;
   const isProduction = mode === "production";
   const isWatchMode = env.WEBPACK_SERVE === true;
@@ -123,3 +129,5 @@ module.exports = (_, argv) => {
 
   return config;
 };
+
+export default webpackConfig;

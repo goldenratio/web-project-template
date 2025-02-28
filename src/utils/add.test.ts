@@ -1,8 +1,10 @@
-import assert from "node:assert";
-import test from "node:test";
+import { equal } from "node:assert/strict";
+import { describe, it } from "node:test";
 
-import { sum } from "./add";
+import { sum } from "./add.ts";
 
-test("should add two numbers", () => {
-  assert.strictEqual(sum(40, 2), 42);
+describe("Dummy test suite", () => {
+  it("Dummy test case", () => {
+    equal(sum(40, 2), 42);
+  });
 });

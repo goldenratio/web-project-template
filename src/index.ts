@@ -1,5 +1,5 @@
-import { sum } from "./utils/add";
-import { loadResourceMap } from "./utils/resource-loader";
+import { sum } from "./utils/add.ts";
+import { loadResourceMap } from "./utils/resource-loader.ts";
 
 declare const BASE_URL: string;
 
